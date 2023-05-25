@@ -18,7 +18,7 @@ const MyProfile: FC<MyProfileProps> = ({}) => {
 
   const handleDeleteClick = (post: PostType) => {
     const deletePrompt = async () => {
-      const response = await fetch(`/api/prompts/${post._id}`, {
+      const response = await fetch(`/api/prompt/${post._id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -28,6 +28,8 @@ const MyProfile: FC<MyProfileProps> = ({}) => {
         router.push("/");
       }
     };
+
+    deletePrompt();
   };
 
   useEffect(() => {
