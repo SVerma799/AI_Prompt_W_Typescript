@@ -9,7 +9,6 @@ export const GET = async (req: any, res: any) => {
     const allusers = await users.find({});
     const prompts = await Prompt.find({}).populate("creator");
 
-    console.log(prompts);
     return new Response(JSON.stringify(prompts), {
       status: 200,
     });

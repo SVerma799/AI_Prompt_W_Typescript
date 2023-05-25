@@ -19,7 +19,6 @@ const PromptCardList = ({ posts }: { posts: [PostType] | [] }) => {
 };
 
 const Feed = () => {
-  const { data: session } = useSession();
   const [search, setSearch] = useState<string>("");
   const [posts, setPosts] = useState<[PostType] | []>([]);
 
@@ -32,6 +31,20 @@ const Feed = () => {
     getPrompts();
   }, []);
 
+  const getSearchedPrompts = (e: any) => {
+    e.preventDefault();
+    const searchVal: string = e.target?.value;
+    setSearch(searchVal);
+    const getPrompts = async () => {
+      const response: Response = await fetch(
+        searchVal == "" ? "/api/prompt" : `/api/search/${searchVal}`
+      );
+      const allPrompts: [PostType] = await response.json();
+      setPosts(allPrompts);
+    };
+    getPrompts();
+  };
+
   return (
     <>
       <section className="feed">
@@ -41,8 +54,9 @@ const Feed = () => {
             placeholder="Search for a tag or username"
             className="search_input"
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={(e) => getSearchedPrompts(e)}
             required
+            onBlur={(e) => getSearchedPrompts(e)}
           />
         </form>
       </section>

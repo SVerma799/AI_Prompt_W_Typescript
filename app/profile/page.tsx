@@ -40,7 +40,6 @@ const MyProfile: FC<MyProfileProps> = ({}) => {
     const getPrompts = async () => {
       const response = await fetch(`/api/users/${session?.user?.id}/posts`);
       const allPrompts = await response.json();
-      console.log("Prompts for user", allPrompts);
       setPosts(allPrompts);
     };
     getPrompts();

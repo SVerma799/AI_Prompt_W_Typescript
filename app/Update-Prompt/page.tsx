@@ -32,7 +32,6 @@ const UpdatePrompt: FC<UpdatePromptProps> = ({}) => {
   const handleSubmitClick = (e: FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
-    console.log(JSON.stringify(post));
 
     const updatePrompt = async () => {
       const response = await fetch(`/api/prompt/${promptId}`, {

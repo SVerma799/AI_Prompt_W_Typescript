@@ -27,9 +27,6 @@ export const PATCH = async (req: any, { params }: { params: CustomParams }) => {
 
     const { prompt, tag } = await req.json();
 
-    console.log(prompt, tag);
-    console.log(params.id);
-
     const dbPrompt = await Prompt.findById(params.id).populate("creator");
 
     if (!dbPrompt) {

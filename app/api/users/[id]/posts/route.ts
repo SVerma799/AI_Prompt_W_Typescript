@@ -11,8 +11,6 @@ export const GET = async (
   try {
     await connectDB();
 
-    // const user = await User.findById(id);
-    // console.log("User with ID: ", id, user);
     const prompts = await Prompt.find({ creator: id }).populate("creator");
 
     return new Response(JSON.stringify(prompts), {
