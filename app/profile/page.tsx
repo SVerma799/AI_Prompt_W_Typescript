@@ -9,7 +9,12 @@ import { FC, useEffect, useState } from "react";
 interface MyProfileProps {}
 
 const MyProfile: FC<MyProfileProps> = ({}) => {
-  const { data: session } = useSession();
+  const { data: session } = useSession({
+    required: true,
+    onUnauthenticated() {
+      router.push("/");
+    },
+  });
   const router = useRouter();
   const [posts, setPosts] = useState<[PostType] | []>([]);
   const handleEditClick = (post: PostType) => {
@@ -34,15 +39,15 @@ const MyProfile: FC<MyProfileProps> = ({}) => {
 
   useEffect(() => {
     if (!session) {
-      window.location.href = "/";
+      router.push("/");
+    } else {
+      const getPrompts = async () => {
+        const response = await fetch(`/api/users/${session?.user?.id}/posts`);
+        const allPrompts = await response.json();
+        setPosts(allPrompts);
+      };
+      getPrompts();
     }
-
-    const getPrompts = async () => {
-      const response = await fetch(`/api/users/${session?.user?.id}/posts`);
-      const allPrompts = await response.json();
-      setPosts(allPrompts);
-    };
-    getPrompts();
   }, [session]);
   return (
     <div>
