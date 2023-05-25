@@ -4,11 +4,7 @@ import PostType from "@/types/PostType";
 
 interface FormProps {
   title: string;
-  post: {
-    prompt: string;
-    tag: string;
-    user: UserType;
-  };
+  post: PostType;
   setPost: (post: PostType) => void;
   submitting: boolean;
   onSubmit: (e: FormEvent) => void;

@@ -10,7 +10,7 @@ export const GET = async (req: any, { params }: { params: CustomParams }) => {
     await connectDB();
 
     //  This is will popluate the user as well along with the post.
-    const prompts = await Prompt.find(params.id).populate("user");
+    const prompts = await Prompt.findById(params.id).populate("creator");
 
     return new Response(JSON.stringify(prompts), {
       headers: { "Content-Type": "application/json" },
@@ -27,7 +27,10 @@ export const PATCH = async (req: any, { params }: { params: CustomParams }) => {
 
     const { prompt, tag } = await req.json();
 
-    const dbPrompt = await Prompt.findbyId(params.id).populate("user");
+    console.log(prompt, tag);
+    console.log(params.id);
+
+    const dbPrompt = await Prompt.findById(params.id).populate("creator");
 
     if (!dbPrompt) {
       return new Response("Prompt not found", {
@@ -46,6 +49,7 @@ export const PATCH = async (req: any, { params }: { params: CustomParams }) => {
       status: 200,
     });
   } catch (err: any) {
+    console.log(err);
     return new Response(err, { status: 500 });
   }
 };
@@ -57,7 +61,7 @@ export const DELETE = async (
   try {
     await connectDB();
 
-    await Prompt.findbyIdAndRemove(params.id).populate("user");
+    await Prompt.findByIdAndRemove(params.id).populate("creator");
 
     return new Response("Prompt deleted", {
       status: 200,
